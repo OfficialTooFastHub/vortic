@@ -341,9 +341,9 @@ const UPDATE_MAX_MS = 45 * 60 * 1000;  // 45 min
 
 // Initial random ranges (used when a product first appears or after a reset)
 const DEFAULT_RANGES = {
-  account: [50, 200],
-  giftcard: [10, 80],
-  live: [30, 300],
+  account:  [12, 48],   // account-based top-ups/creds
+  giftcard: [6, 24],    // prepaid code pool
+  live:     [18, 90],   // live/one-off items
 };
 
 // Per-update delta magnitude (gentle changes so it feels natural)
@@ -1316,3 +1316,4 @@ await loadChoices();
     console.log(`Ping:   http://localhost:${CONFIG.PORT}/ping`);
   });
 })();
+

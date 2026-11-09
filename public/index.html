@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07070b">
+<meta name="description" content="Vortic — fast, secure digital goods with instant delivery.">
+<title>Vortic — Digital goods, delivered instantly</title>
+<style>
+:root{--bg:#07070b;--panel:#121219;--line:#ffffff17;--line2:#ffffff2b;--text:#f7f7fb;--muted:#a1a1b2;--red:#ff3b4f;--purple:#8c5cff;--blue:#3b82f6;--green:#5ee6a8;--amber:#ffad3b;--max:1180px;--ease:cubic-bezier(.2,.8,.2,1)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--text);background:radial-gradient(circle at 8% -5%,#ff3b4f29,transparent 30rem),radial-gradient(circle at 92% 14%,#8c5cff20,transparent 27rem),var(--bg);background-attachment:fixed;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+button,input,select{font:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid #ff7b88;outline-offset:3px;border-radius:8px}
+.container{width:min(var(--max),calc(100% - 40px));margin:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:#07070bcc;backdrop-filter:blur(18px)}
+.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-size:1.2rem}
+.mark{width:35px;height:35px;display:grid;place-items:center;border-radius:11px;background:linear-gradient(135deg,var(--red),var(--purple));box-shadow:0 8px 25px #ff3b4f45}
+.nav-links{display:flex;padding:5px;border:1px solid var(--line);border-radius:99px;background:#ffffff08}
+.nav-btn{border:0;background:none;color:var(--muted);padding:9px 17px;border-radius:99px;cursor:pointer;font-weight:750;font-size:.86rem;transition:.2s}
+.nav-btn:hover{color:#fff}
+.nav-btn.active{color:#fff;background:#ffffff17}
+.nav-cta{border:1px solid #ff3b4f55;background:#ff3b4f18;color:#ffabb4;padding:10px 15px;border-radius:12px;font-weight:800;cursor:pointer;transition:.2s}
+.nav-cta:hover{background:#ff3b4f30;transform:translateY(-1px)}
+
+/* sections */
+.section{display:none}
+.section.active{display:block;animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}}
+
+/* hero */
+.hero{min-height:680px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:65px;padding:75px 0 55px}
+.eyebrow,.kicker{font-size:.79rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:#ff7b88}
+.eyebrow:before{content:"";display:inline-block;width:8px;height:8px;margin-right:10px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px #5ee6a820;animation:pulse 2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 9px #5ee6a800}}
+h1{margin:18px 0 22px;font-size:clamp(3.3rem,6.8vw,6.3rem);line-height:.93;letter-spacing:-.07em}
+.gradient{background:linear-gradient(95deg,#fff,#ff7b88 50%,#a786ff 100%);background-size:200% 100%;background-clip:text;-webkit-background-clip:text;color:transparent;animation:shine 7s ease-in-out infinite alternate}
+@keyframes shine{to{background-position:100% 0}}
+.lead{max-width:620px;color:var(--muted);font-size:1.12rem;margin:0 0 30px}
+.actions{display:flex;gap:11px;flex-wrap:wrap}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:6px;border:1px solid transparent;border-radius:14px;padding:12px 19px;font-weight:850;text-decoration:none;cursor:pointer;transition:.2s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(135deg,var(--red),#c91536);box-shadow:0 14px 30px #c9153640;color:#fff}
+.primary:hover{box-shadow:0 18px 40px #c9153666}
+.secondary{background:#ffffff0a;border-color:var(--line);color:#fff}
+.secondary:hover{background:#ffffff14;border-color:var(--line2)}
+.trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:.84rem}
+.trust b{color:var(--green)}
+
+.visual{position:relative;min-height:470px;perspective:1100px}
+.orb{position:absolute;inset:8%;border-radius:50%;background:linear-gradient(145deg,#ff3b4f48,#8c5cff25);filter:blur(35px);transition:transform .2s}
+.showcase{position:absolute;inset:28px 0 20px 25px;padding:20px;border:1px solid #ffffff20;border-radius:30px;background:linear-gradient(145deg,#181822fa,#0d0d13ee);box-shadow:0 25px 80px #0007;transform:rotate(2deg);transition:transform .25s var(--ease);overflow:hidden}
+.showcase:before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,70%) var(--my,0%),#ffffff12,transparent 60%);pointer-events:none}
+.show-top{display:flex;justify-content:space-between;color:var(--green);font-size:.7rem;font-weight:850}
+.featured{margin-top:20px;padding:24px;border:1px solid var(--line);border-radius:22px;background:radial-gradient(circle at 80% 15%,#8c5cff40,transparent 45%),#181821}
+.featured small{color:var(--muted)}
+.featured h3{font-size:1.8rem;margin:25px 0 2px}
+.featured b{color:#ff8d98}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.mini{padding:17px;border:1px solid var(--line);border-radius:17px;background:#13131b;transition:.2s}
+.mini:hover{border-color:#ff3b4f55;transform:translateY(-2px)}
+.mini b{display:block}
+.mini span{color:var(--muted);font-size:.78rem}
+.float{position:absolute;right:-15px;bottom:0;padding:14px 18px;border:1px solid #ffffff20;border-radius:16px;background:#171720;box-shadow:0 18px 55px #0008;transform:rotate(-3deg);font-size:.82rem;animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{margin-bottom:10px}}
+.float b{display:block;color:var(--green)}
+
+/* marquee */
+.marquee{overflow:hidden;margin:0 0 60px;border-block:1px solid var(--line);padding:18px 0;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-track{display:flex;gap:56px;width:max-content;animation:scroll 32s linear infinite;color:#ffffff66;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:.9rem}
+.marquee-track span:before{content:"✦";margin-right:56px;color:#ff3b4f99}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+.strip{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:22px;background:#ffffff06;margin-bottom:95px}
+.strip>div{padding:24px 27px}
+.strip>div+div{border-left:1px solid var(--line)}
+.strip b{display:block}
+.strip span{color:var(--muted);font-size:.82rem}
+
+.heading,.page-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin:10px 0 30px}
+.heading h2,.page-head h1{font-size:clamp(2.2rem,4vw,3.7rem);line-height:1;letter-spacing:-.055em;margin:0}
+.heading p,.page-head p{color:var(--muted);max-width:520px;margin:0}
+
+/* how it works */
+.how{margin-bottom:95px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;counter-reset:s}
+.how-card{position:relative;padding:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#ffffff0c,#ffffff04);overflow:hidden}
+.how-card:before{counter-increment:s;content:"0" counter(s);position:absolute;right:20px;top:6px;font-size:5.5rem;font-weight:950;letter-spacing:-.06em;color:#ffffff08}
+.how-card i{font-style:normal;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#ff3b4f1c;border:1px solid #ff3b4f40;font-size:1.2rem}
+.how-card h3{margin:22px 0 6px}
+.how-card p{margin:0;color:var(--muted);font-size:.9rem}
+
+/* gift card verification scene */
+.card-showcase{position:relative;height:640px;margin:0 0 100px;border:1px solid var(--line);border-radius:30px;overflow:hidden;background:radial-gradient(ellipse 50% 50% at 50% 58%,#8c5cff22,transparent 70%),radial-gradient(ellipse 30% 30% at 50% 58%,#5ee6a812,transparent 70%),#08080d;--stackx:300px;--stacky:0px;--pile:.9}
+.card-showcase:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:55px 55px;mask-image:radial-gradient(ellipse at 50% 60%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 60%,#000 10%,transparent 70%)}
+.card-scene-copy{position:absolute;z-index:6;left:38px;top:36px;max-width:340px}
+.card-scene-copy h2{font-size:clamp(2rem,4vw,3.5rem);line-height:1;letter-spacing:-.055em;margin:10px 0}
+.card-scene-copy p{color:var(--muted);margin:0}
+.card-progress{position:absolute;z-index:6;right:35px;top:38px;display:flex;gap:7px}
+.card-progress i{width:27px;height:4px;border-radius:5px;background:#ffffff18;transition:.3s}
+.card-progress i.on{background:var(--green);box-shadow:0 0 12px #5ee6a8aa}
+.stage{position:absolute;inset:0}
+.scanner{position:absolute;left:50%;top:372px;width:270px;height:196px;transform:translate(-50%,-50%);border-radius:22px;--g:#5ee6a8;background:
+ linear-gradient(var(--g),var(--g)) 0 0/26px 2px,linear-gradient(var(--g),var(--g)) 0 0/2px 26px,
+ linear-gradient(var(--g),var(--g)) 100% 0/26px 2px,linear-gradient(var(--g),var(--g)) 100% 0/2px 26px,
+ linear-gradient(var(--g),var(--g)) 0 100%/26px 2px,linear-gradient(var(--g),var(--g)) 0 100%/2px 26px,
+ linear-gradient(var(--g),var(--g)) 100% 100%/26px 2px,linear-gradient(var(--g),var(--g)) 100% 100%/2px 26px;background-repeat:no-repeat;opacity:.35;transition:opacity .4s,filter .4s}
+.card-showcase.live .scanner{opacity:1;filter:drop-shadow(0 0 8px #5ee6a899)}
+.pile-label{position:absolute;z-index:3;top:500px;width:150px;margin-left:-75px;text-align:center;font-size:.7rem;font-weight:850;letter-spacing:.12em;color:var(--muted)}
+.pile-label b{color:#fff;font-size:.9rem;margin-left:4px}
+.pile-label.q{left:calc(50% - var(--stackx))}
+.pile-label.v{left:calc(50% + var(--stackx))}
+.pile-label.v b{color:var(--green)}
+.scan-status{position:absolute;left:50%;top:496px;transform:translateX(-50%);z-index:6;padding:8px 16px;border:1px solid var(--line2);border-radius:99px;background:#0c0c12ee;font-size:.76rem;font-weight:800;letter-spacing:.06em;white-space:nowrap;color:var(--muted);transition:.3s}
+.card-showcase.live .scan-status{color:var(--green);border-color:#5ee6a855}
+.gift-card{--px:0px;--py:0px;--r:0deg;--sc:1;position:absolute;left:50%;top:372px;width:214px;aspect-ratio:1.58;margin-top:-68px;overflow:hidden;border:1px solid #ffffff3a;border-radius:18px;padding:18px;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 18px 40px #000a,inset 0 1px 0 #ffffff40;transform:translate(calc(-50% + var(--px)),var(--py)) rotate(var(--r)) scale(var(--sc));transition:transform .75s var(--ease),filter .5s,box-shadow .5s;z-index:var(--z,1)}
+.gift-card:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,#ffffff22 45%,transparent 60%)}
+.gift-card:after{content:"";position:absolute;left:0;right:0;top:0;height:46%;background:linear-gradient(to bottom,transparent,#5ee6a855 85%,#5ee6a8);border-bottom:2px solid #b9f5d9;transform:translateY(-110%);opacity:0}
+.gift-card.q{filter:brightness(.62) saturate(.7)}
+.gift-card.q:nth-of-type(n){--px:calc(var(--stackx) * -1 + var(--d) * 7px);--py:calc(var(--stacky) - var(--d) * 9px);--r:calc(var(--d) * 1.6deg - 1.2deg);--sc:calc(var(--pile) - var(--d) * .035);--z:calc(10 - var(--d))}
+.gift-card.active{--px:0px;--py:0px;--r:0deg;--sc:1.12;--z:30;filter:none;box-shadow:0 0 0 2px #5ee6a866,0 28px 70px #000c,0 0 50px #5ee6a833}
+.gift-card.active:after{opacity:1;animation:scan 1.3s .45s ease-in-out forwards}
+@keyframes scan{0%{transform:translateY(-110%)}100%{transform:translateY(120%);opacity:0}}
+.gift-card.done{--px:calc(var(--stackx) + var(--d) * 6px);--py:calc(var(--stacky) - var(--d) * 9px);--r:calc(var(--d) * -1.4deg + 1deg);--sc:var(--pile);--z:calc(var(--k) + 2);filter:none}
+.gift-brand{font-weight:950;letter-spacing:.12em}
+.gift-label{position:absolute;left:18px;bottom:16px;font-size:.78rem;font-weight:800;letter-spacing:.04em}
+.gift-chip{position:absolute;right:18px;top:18px;width:31px;height:24px;border:1px solid #ffffff55;border-radius:7px;background:linear-gradient(135deg,#ffffff40,#ffffff10)}
+.gift-check{position:absolute;right:12px;bottom:12px;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--green);color:#07150f;font-weight:950;opacity:0;transform:scale(.3) rotate(-25deg);transition:.4s var(--ease);box-shadow:0 0 0 4px #5ee6a830}
+.gift-card.active .gift-check{opacity:1;transform:none;transition-delay:1.5s}
+.gift-card.done .gift-check{opacity:1;transform:none}
+.gift-card:nth-of-type(1){--c1:#7437ff;--c2:#28115e}
+.gift-card:nth-of-type(2){--c1:#ff3b4f;--c2:#7b1027}
+.gift-card:nth-of-type(3){--c1:#238cff;--c2:#0b326f}
+.gift-card:nth-of-type(4){--c1:#16b77a;--c2:#07513b}
+
+/* categories */
+.home-products{position:relative;padding-bottom:95px}
+.home-products:before{content:"";position:absolute;width:420px;height:420px;right:-220px;top:-100px;border-radius:50%;background:#8c5cff20;filter:blur(75px);pointer-events:none}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cat{all:unset;box-sizing:border-box;position:relative;min-height:190px;padding:22px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#ffffff0c,#ffffff04);cursor:pointer;transition:.25s var(--ease);overflow:hidden}
+.cat:before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),color-mix(in srgb,var(--a) 30%,transparent),transparent 70%);opacity:0;transition:.3s}
+.cat:hover:before,.cat:focus-visible:before{opacity:1}
+.cat:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--a) 55%,transparent)}
+.cat:focus-visible{outline:2px solid #ff7b88}
+.cat small{position:relative;color:var(--muted)}
+.cat h3{position:relative;margin:55px 0 3px;font-size:1.25rem}
+.cat p{position:relative;margin:0;color:var(--muted);font-size:.8rem}
+.cat .go{position:absolute;right:20px;top:18px;color:var(--a);transition:.25s}
+.cat:hover .go{transform:translate(3px,-3px)}
+
+/* faq */
+.faq{padding-bottom:95px;max-width:820px}
+.faq details{border:1px solid var(--line);border-radius:16px;background:#ffffff06;margin-top:10px;transition:.2s}
+.faq details[open]{background:#ffffff0b;border-color:var(--line2)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 22px;font-weight:800;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";color:#ff7b88;font-size:1.3rem;line-height:1;transition:.25s}
+.faq details[open] summary:after{transform:rotate(45deg)}
+.faq p{margin:0;padding:0 22px 20px;color:var(--muted);font-size:.92rem}
+.cta-band{margin-bottom:100px;padding:50px 40px;text-align:center;border:1px solid var(--line2);border-radius:28px;background:radial-gradient(circle at 20% 0%,#ff3b4f30,transparent 50%),radial-gradient(circle at 85% 100%,#8c5cff30,transparent 50%),#101017}
+.cta-band h2{margin:0 0 8px;font-size:clamp(1.9rem,3.6vw,3rem);letter-spacing:-.05em;line-height:1.05}
+.cta-band p{margin:0 auto 24px;color:var(--muted);max-width:480px}
+.cta-band .actions{justify-content:center}
+
+/* products / shop */
+.shop{padding:60px 0 100px;min-height:720px}
+.shop-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:26px}
+.shop-head h1{margin:10px 0 8px;font-size:clamp(2.4rem,4.6vw,4rem);line-height:1;letter-spacing:-.06em}
+.shop-head p{margin:0;color:var(--muted)}
+.shop-note{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.shop-note span{padding:8px 13px;border:1px solid var(--line);border-radius:99px;font-size:.76rem;color:var(--muted);background:#ffffff06}
+.shop-note b{color:var(--green)}
+.shop-search{position:relative;display:flex;align-items:center;gap:12px;height:58px;padding:0 18px;margin-bottom:14px;border:1px solid var(--line2);border-radius:18px;background:#0c0c12;color:var(--muted);transition:.2s}
+.shop-search svg{flex:none;width:20px;height:20px;opacity:.7}
+.shop-search:focus-within{border-color:#ff3b4f99;box-shadow:0 0 0 5px #ff3b4f14;background:#0e0e15}
+.shop-search input{min-width:0;width:100%;height:100%;border:0;outline:0;background:none;color:#fff;font-size:1rem}
+.shop-search input::placeholder{color:#ffffff55}
+.shop-search kbd{flex:none;display:grid;place-items:center;min-width:26px;height:26px;padding:0 7px;border:1px solid var(--line2);border-radius:8px;background:#ffffff0c;color:#ffffff88;font-size:.75rem;font-weight:700;font-family:inherit}
+.shop-search.has-q kbd{display:none}
+.clear-btn{display:none;flex:none;border:0;background:#ffffff17;color:#fff;border-radius:50%;width:26px;height:26px;padding:0;cursor:pointer;font-size:.75rem}
+.shop-search.has-q .clear-btn{display:block}
+.shop-bar{display:flex;align-items:flex-start;gap:12px;padding:10px;margin-bottom:8px;border:1px solid var(--line);border-radius:20px;background:#0b0b11}
+.pills{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0;padding:2px}
+.pills::-webkit-scrollbar{display:none}
+.pill-btn{--a:#a1a1b2;flex:none;display:inline-flex;align-items:center;gap:9px;padding:6px 14px 6px 6px;border:1px solid var(--line);border-radius:99px;background:#ffffff06;color:var(--muted);font-weight:750;font-size:.82rem;cursor:pointer;white-space:nowrap;transition:.2s}
+.pill-btn i{font-style:normal;display:grid;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:99px;background:linear-gradient(135deg,var(--a),color-mix(in srgb,var(--a) 45%,#000));color:#fff;font-size:.66rem;font-weight:950}
+.pill-btn small{color:#ffffff55;font-weight:700}
+.pill-btn:hover{color:#fff;border-color:var(--line2)}
+.pill-btn.active{color:#fff;border-color:color-mix(in srgb,var(--a) 70%,transparent);background:color-mix(in srgb,var(--a) 16%,transparent)}
+.shop-sort{flex:none;align-self:flex-start;display:flex;align-items:center;gap:8px;padding:0 12px 0 14px;height:42px;border:1px solid var(--line);border-radius:14px;background:#08080c;color:var(--muted);font-size:.78rem;font-weight:700}
+.shop-sort select{border:0;outline:0;background:none;color:#fff;cursor:pointer;font:inherit;font-weight:700}
+.shop-sort select option{background:#111118}
+
+.pg{margin-top:46px;scroll-margin-top:170px}
+.pg[hidden],.tier[hidden],.row-card[hidden]{display:none}
+.pg-head{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.pg-glyph{--a:#a1a1b2;flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:17px;background:linear-gradient(135deg,var(--a),color-mix(in srgb,var(--a) 40%,#000));color:#fff;font-weight:950;font-size:1rem;box-shadow:0 12px 30px color-mix(in srgb,var(--a) 35%,transparent)}
+.pg-head h2{margin:0;font-size:1.5rem;letter-spacing:-.04em;line-height:1.15}
+.pg-head p{margin:2px 0 0;color:var(--muted);font-size:.86rem}
+.pg-from{margin-left:auto;text-align:right;color:var(--muted);font-size:.74rem;white-space:nowrap}
+.pg-from b{display:block;color:#fff;font-size:1.15rem;letter-spacing:-.02em}
+
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tier{position:relative;display:flex;flex-direction:column;padding:22px;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--a) 20%,transparent),transparent 55%),linear-gradient(160deg,#16161f,#0e0e14);transition:transform .3s var(--ease),border-color .3s,box-shadow .3s}
+.tier:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--a),transparent)}
+.tier:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--a) 60%,transparent);box-shadow:0 26px 60px #0008,0 0 0 1px color-mix(in srgb,var(--a) 25%,transparent),0 18px 60px color-mix(in srgb,var(--a) 18%,transparent)}
+.tier-top{display:flex;justify-content:space-between;align-items:center;min-height:26px}
+.tier-kind{font-size:.66rem;font-weight:900;letter-spacing:.14em;color:#ffffff66}
+.tier-badge{white-space:nowrap;padding:4px 10px;border-radius:99px;font-size:.62rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;background:#5ee6a81f;color:var(--green);border:1px solid #5ee6a855}
+.tier-badge.best{background:linear-gradient(135deg,#5ee6a8,#2fbf86);color:#04170f;border-color:transparent}
+.tier-amt{margin-top:18px;font-size:clamp(2.2rem,3.4vw,2.9rem);font-weight:950;letter-spacing:-.06em;line-height:1}
+.tier-unit{margin-top:6px;color:color-mix(in srgb,var(--a) 70%,#fff);font-weight:800;font-size:.92rem}
+.tier-rate{margin-top:14px;color:var(--muted);font-size:.78rem}
+.tier-rate b{color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border:1px solid var(--line);border-radius:99px;font-size:.68rem;font-weight:700;color:var(--muted)}
+.chip:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green)}
+.chip b{color:#fff;font-weight:850}.chip.off{opacity:.45}.chip.off:before{background:#777}
+.tier-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:auto;padding-top:22px}
+.tier-price{font-size:1.5rem;font-weight:950;letter-spacing:-.04em}
+.buy{padding:10px 16px;border-radius:12px;font-size:.8rem}
+.btn.dead{background:#25252e;color:#888;cursor:not-allowed;box-shadow:none;transform:none}
+.tier.soldout,.row-card.soldout{opacity:.55;filter:grayscale(.7)}
+.tier.soldout:hover,.row-card.soldout:hover{transform:none;box-shadow:none}
+
+.rows{display:grid;gap:10px}
+.row-card{--a:#a1a1b2;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:18px;padding:16px 20px 16px 16px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(90deg,color-mix(in srgb,var(--a) 9%,transparent),#ffffff04 40%);transition:.25s var(--ease)}
+.row-card:hover{transform:translateX(5px);border-color:color-mix(in srgb,var(--a) 55%,transparent);background:linear-gradient(90deg,color-mix(in srgb,var(--a) 16%,transparent),#ffffff06 50%)}
+.row-glyph{display:grid;place-items:center;width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,var(--a),color-mix(in srgb,var(--a) 40%,#000));color:#fff;font-weight:950;font-size:.95rem;box-shadow:0 10px 26px color-mix(in srgb,var(--a) 30%,transparent)}
+.row-main h3{margin:0 0 6px;font-size:1.05rem;letter-spacing:-.02em;line-height:1.25}
+.row-main .chips{margin-top:0}
+.row-price{font-size:1.4rem;font-weight:950;letter-spacing:-.04em}
+
+
+.shop-empty{display:none;padding:60px 20px;text-align:center;color:var(--muted);border:1px dashed var(--line2);border-radius:22px;margin-top:40px}
+.shop-empty b{display:block;color:#fff;font-size:1.2rem;margin-bottom:6px}
+.shop-empty .btn{margin-top:16px}
+.shop-help{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:70px;padding:26px 30px;border:1px solid var(--line2);border-radius:24px;background:radial-gradient(circle at 0% 0%,#ff3b4f22,transparent 50%),radial-gradient(circle at 100% 100%,#8c5cff22,transparent 50%),#101017}
+.shop-help h3{margin:0 0 3px;font-size:1.2rem;letter-spacing:-.03em}
+.shop-help p{margin:0;color:var(--muted);font-size:.9rem}
+.sk{height:300px;border-radius:24px;background:linear-gradient(100deg,#ffffff08 30%,#ffffff12 50%,#ffffff08 70%);background-size:300% 100%;animation:skel 1.4s infinite}
+@keyframes skel{to{background-position:-100% 0}}
+.sk-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:46px}
+.empty{padding:60px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:20px}
+
+/* redeem */
+.redeem-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+.rsteps{margin:34px 0 26px}
+.rstep{position:relative;display:flex;gap:16px;padding-bottom:26px}
+.rstep:last-child{padding-bottom:0}
+.rstep:not(:last-child):after{content:"";position:absolute;left:16px;top:38px;bottom:4px;width:2px;border-radius:2px;background:var(--line);transition:.4s}
+.rstep.done:not(:last-child):after{background:var(--green)}
+.rnum{position:relative;flex:none;width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line2);border-radius:50%;background:#0c0c11;color:var(--muted);font-weight:850;font-size:.78rem;transition:.35s var(--ease)}
+.rstep.active .rnum{border-color:#ff3b4f;color:#fff;background:#ff3b4f22;box-shadow:0 0 0 5px #ff3b4f18}
+.rstep.done .rnum{border-color:var(--green);background:var(--green);color:transparent;box-shadow:none}
+.rstep.done .rnum:before{content:"✓";position:absolute;color:#04170f;font-weight:950}
+.rstep b{display:block;line-height:34px;transition:.3s}
+.rstep:not(.active):not(.done) b{color:var(--muted)}
+.rstep p{margin:-4px 0 0;color:var(--muted);font-size:.85rem}
+.rhelp{border:1px solid var(--line);border-radius:16px;background:#ffffff06;padding:0 18px}
+.rhelp summary{cursor:pointer;list-style:none;padding:15px 0;font-weight:800;font-size:.9rem;display:flex;justify-content:space-between}
+.rhelp summary::-webkit-details-marker{display:none}
+.rhelp summary:after{content:"+";color:#ff7b88;font-size:1.2rem;line-height:1;transition:.25s}
+.rhelp[open] summary:after{transform:rotate(45deg)}
+.rhelp p{margin:0 0 16px;color:var(--muted);font-size:.86rem}
+.rhelp a{color:#ff9aa5}
+.redeem-card{position:relative;padding:32px;border:1px solid #ffffff22;border-radius:28px;background:radial-gradient(circle at 100% 0%,#8c5cff22,transparent 50%),linear-gradient(160deg,#171720,#0f0f15);box-shadow:0 30px 90px #0008}
+.rc-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.rc-head h2{margin:0;font-size:1.5rem;letter-spacing:-.04em}
+.rc-lock{padding:6px 11px;border:1px solid #5ee6a844;border-radius:99px;background:#5ee6a812;color:var(--green);font-size:.68rem;font-weight:850;letter-spacing:.06em;white-space:nowrap}
+.label{display:block;font-size:.74rem;font-weight:850;letter-spacing:.1em;color:var(--muted);margin-bottom:9px}
+.inv-box{display:flex;align-items:center;gap:10px;height:62px;padding:0 10px 0 18px;border:1px solid var(--line2);border-radius:18px;background:#0b0b10;transition:.2s}
+.inv-box:focus-within{border-color:#ff3b4f99;box-shadow:0 0 0 5px #ff3b4f14}
+.inv-box.bad{border-color:#ff3b4f99}
+.inv-box svg{flex:none;width:20px;height:20px;color:#ffffff66}
+.inv-box input{min-width:0;width:100%;height:100%;border:0;outline:0;background:none;color:#fff;font:600 1.05rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.02em}
+.inv-box input::placeholder{color:#ffffff40;font-family:inherit}
+.paste{flex:none;border:1px solid var(--line2);background:#ffffff0d;color:#fff;border-radius:12px;padding:9px 14px;font-weight:800;font-size:.78rem;cursor:pointer;transition:.2s}
+.paste:hover{background:#ffffff18}
+.go{width:100%;margin-top:14px;height:56px;font-size:1rem;border-radius:16px}
+.go[disabled]{opacity:.8;cursor:progress;transform:none}
+.spin{width:18px;height:18px;border:2.5px solid #ffffff55;border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.result{display:none;margin-top:18px;padding:20px;border:1px solid var(--line2);border-radius:20px;animation:up .35s var(--ease)}
+.result.show{display:block}
+.res-top{display:flex;gap:14px;align-items:flex-start}
+.res-ico{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;font-size:1.3rem;font-weight:900}
+.res-top b{display:block;font-size:1.08rem;letter-spacing:-.02em;line-height:1.3}
+.res-top p{margin:3px 0 0;color:var(--muted);font-size:.88rem}
+.result.ok{border-color:#5ee6a855;background:#5ee6a80f}.result.ok .res-ico{background:var(--green);color:#04170f}
+.result.wait{border-color:#ffad3b55;background:#ffad3b0f}.result.wait .res-ico{background:var(--amber);color:#1c1200}
+.result.err{border-color:#ff3b4f55;background:#ff3b4f0f}.result.err .res-ico{background:#ff3b4f;color:#fff}
+.result.info .res-ico{background:#ffffff1a;color:#fff}
+.res-items{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.res-items li{display:flex;justify-content:space-between;gap:12px;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:#0b0b1080;font-size:.88rem;font-weight:700}
+.res-items li span{color:var(--muted);font-weight:600}
+.res-tips{margin:14px 0 0;padding-left:18px;color:var(--muted);font-size:.84rem}
+.res-act{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.res-act .btn{flex:1;min-width:150px}
+.res-meta{margin-top:12px;font-size:.76rem;color:var(--muted)}
+.rc-foot{margin:18px 2px 0;color:var(--muted);font-size:.76rem;text-align:center}
+
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:.8rem}
+.footer-inner{display:flex;justify-content:space-between;gap:16px}
+.footer-links{display:flex;gap:18px}
+.footer-links a{text-decoration:none;transition:.2s}
+.footer-links a:hover{color:#fff}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(45px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.from-left{transform:translateX(-45px)}
+.reveal.from-right{transform:translateX(45px)}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:900px){
+ .nav-cta{display:none}
+ .hero{grid-template-columns:1fr;min-height:auto;gap:30px}
+ .visual{min-height:440px}
+ .strip,.how-grid{grid-template-columns:1fr}
+ .strip>div+div{border-left:0;border-top:1px solid var(--line)}
+ .cats{grid-template-columns:1fr 1fr}
+ .redeem-layout{grid-template-columns:1fr;gap:40px}
+}
+@media(max-width:900px){
+ .shop-head{display:block}.shop-note{justify-content:flex-start;margin-top:14px}
+ .tiers{grid-template-columns:1fr 1fr}
+ .sk-wrap{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+ .row-card{grid-template-columns:auto 1fr;grid-template-areas:"g m" "p b";row-gap:14px}
+ .row-glyph{grid-area:g;width:46px;height:46px}.row-main{grid-area:m}
+ .row-price{grid-area:p;align-self:center}.row-card .buy{grid-area:b;justify-self:end}
+ .row-card:hover{transform:none}
+ .shop-help{display:block}.shop-help .btn{margin-top:16px}
+}
+@media(max-width:600px){
+ .container{width:calc(100% - 24px)}
+ .brand>span:last-child{display:none}
+ .nav-btn{padding:8px 11px}
+ .hero{padding-top:50px}
+ .visual{min-height:380px}
+ .showcase{inset:15px 4px}
+ .float{right:0}
+ .strip{margin:40px 0 65px}
+ .heading,.page-head{display:block}
+ .heading p,.page-head p{margin-top:14px}
+ .cats{grid-template-columns:1fr}
+ .cat{min-height:150px}.cat h3{margin-top:25px}
+ .page{padding-top:45px}
+ .redeem-card{padding:22px}
+ .rc-lock{display:none}.inv-box{height:58px}.paste{padding:8px 11px}
+ .footer-inner{display:block}.footer-links{margin-top:10px}
+ .shop{padding-top:40px}.tiers{gap:10px}.tier{padding:16px;border-radius:20px}.tier-amt{font-size:1.9rem}.tier-kind{display:none}.tier-top{min-height:24px;justify-content:flex-start}.tier-amt{margin-top:10px}.tier-price{font-size:1.2rem}.tier-foot{flex-wrap:wrap}.tier-foot .buy{width:100%}.sk-wrap{grid-template-columns:1fr 1fr}
+ .cta-band{padding:36px 22px}
+ /* gift card scene on phones */
+ .card-showcase{height:660px;margin-bottom:70px;--stackx:98px;--stacky:160px;--pile:.62}
+ .card-scene-copy{left:22px;top:24px;right:22px}
+ .card-progress{right:22px;top:auto;bottom:22px;left:22px;justify-content:center}
+ .scanner{top:392px;width:210px;height:158px}
+ .gift-card{width:156px;padding:12px;top:392px;margin-top:-49px}
+ .gift-label{left:12px;bottom:10px;font-size:.6rem}
+ .gift-chip{right:11px;top:11px;width:24px;height:18px}
+ .gift-check{width:24px;height:24px;right:8px;bottom:8px;font-size:.7rem}
+ .scan-status{top:262px}
+ .pile-label{top:590px;width:110px;margin-left:-55px;font-size:.6rem}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media(max-width:700px){.shop-bar{flex-direction:column;align-items:stretch}.shop-sort{align-self:stretch;justify-content:space-between}.pill-btn{font-size:.78rem;padding-right:11px}}
+@media(max-width:900px){.redeem-card{order:-1}}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="container nav-inner">
+ <a class="brand" href="#" onclick="switchTab('home');return false"><span class="mark">V</span><span>Vortic</span></a>
+ <div class="nav-links" role="tablist">
+  <button class="nav-btn active" data-tab="home" onclick="switchTab('home')">Home</button>
+  <button class="nav-btn" data-tab="products" onclick="switchTab('products')">Products</button>
+  <button class="nav-btn" data-tab="redeem" onclick="switchTab('redeem')">Redeem</button>
+ </div>
+ <button class="nav-cta" onclick="switchTab('products')">Browse store →</button>
+</div></nav>
+
+<main>
+<section id="home" class="section active"><div class="container">
+
+ <div class="hero">
+  <div class="reveal from-left">
+   <div class="eyebrow">Digital delivery, reimagined</div>
+   <h1>Level up.<br><span class="gradient">Skip the wait.</span></h1>
+   <p class="lead">Premium game currency, accounts, and digital goods delivered in minutes. Simple checkout, transparent stock, zero runaround.</p>
+   <div class="actions"><button class="btn primary" onclick="switchTab('products')">Shop products →</button><button class="btn secondary" onclick="switchTab('redeem')">Redeem an order</button></div>
+   <div class="trust"><span><b>✓</b> Instant delivery</span><span><b>✓</b> Live inventory</span><span><b>✓</b> Secure checkout</span></div>
+  </div>
+  <div class="visual reveal from-right">
+   <div class="orb"></div>
+   <div class="showcase" id="tilt">
+    <div class="show-top"><span>VORTIC / STORE</span><span>● LIVE INVENTORY</span></div>
+    <div class="featured"><small>FEATURED DROP</small><h3>Game currency</h3><b>Fast. Simple. Ready.</b></div>
+    <div class="mini-grid">
+     <div class="mini"><b>Robux</b><span>Account & gift card</span></div>
+     <div class="mini"><b>V-Bucks</b><span>Instant methods</span></div>
+     <div class="mini"><b>Valorant</b><span>Points & accounts</span></div>
+     <div class="mini"><b>Discord</b><span>Nitro & more</span></div>
+    </div>
+   </div>
+   <div class="float"><b>Order confirmed ✓</b>Ready for delivery</div>
+  </div>
+ </div>
+
+ <div class="marquee reveal" aria-hidden="true"><div class="marquee-track">
+  <span>Robux</span><span>V-Bucks</span><span>Valorant Points</span><span>Discord Nitro</span><span>Gift cards</span><span>Game accounts</span><span>Instant delivery</span>
+  <span>Robux</span><span>V-Bucks</span><span>Valorant Points</span><span>Discord Nitro</span><span>Gift cards</span><span>Game accounts</span><span>Instant delivery</span>
+ </div></div>
+
+ <div class="strip reveal">
+  <div><b>⚡ Delivery in minutes</b><span>Get what you bought without the wait.</span></div>
+  <div><b>◈ Stock you can trust</b><span>Inventory updates straight from our store.</span></div>
+  <div><b>✓ Simple fulfillment</b><span>One invoice ID is all you need.</span></div>
+ </div>
+
+ <div class="how reveal">
+  <span class="kicker">How it works</span>
+  <div class="heading"><h2>Three steps.<br>That's the whole thing.</h2><p>No accounts to create, no forms to fill. Pay, paste your invoice ID, get your goods.</p></div>
+  <div class="how-grid">
+   <div class="how-card"><i>🛒</i><h3>Pick &amp; pay</h3><p>Choose a product and check out securely on our store.</p></div>
+   <div class="how-card"><i>🧾</i><h3>Paste your invoice</h3><p>Copy the invoice ID from your receipt into the Redeem page.</p></div>
+   <div class="how-card"><i>⚡</i><h3>Receive instantly</h3><p>Choose your delivery method and get your item in minutes.</p></div>
+  </div>
+ </div>
+
+ <!-- gift card verification scene -->
+ <section class="card-showcase reveal" id="card-showcase" aria-label="Gift cards being verified one by one">
+  <div class="card-scene-copy"><span class="kicker">Verified selection</span><h2>Pick it.<br>We check it.</h2><p>Every card is verified one by one before it reaches you.</p></div>
+  <div class="card-progress"><i></i><i></i><i></i><i></i></div>
+  <div class="stage">
+   <div class="scanner"></div>
+   <div class="pile-label q">QUEUE <b id="n-q">4</b></div>
+   <div class="pile-label v">VERIFIED <b id="n-v">0</b></div>
+   <div class="scan-status" id="scan-status">Waiting to scan</div>
+   <article class="gift-card" data-name="Roblox credit"><span class="gift-brand">VORTIC</span><span class="gift-chip"></span><span class="gift-label">ROBLOX CREDIT</span><span class="gift-check">✓</span></article>
+   <article class="gift-card" data-name="V-Bucks"><span class="gift-brand">VORTIC</span><span class="gift-chip"></span><span class="gift-label">V-BUCKS</span><span class="gift-check">✓</span></article>
+   <article class="gift-card" data-name="Valorant Points"><span class="gift-brand">VORTIC</span><span class="gift-chip"></span><span class="gift-label">VALORANT POINTS</span><span class="gift-check">✓</span></article>
+   <article class="gift-card" data-name="Digital drop"><span class="gift-brand">VORTIC</span><span class="gift-chip"></span><span class="gift-label">DIGITAL DROP</span><span class="gift-check">✓</span></article>
+  </div>
+ </section>
+
+ <div class="home-products reveal">
+  <span class="kicker">Explore the store</span>
+  <div class="heading"><h2>Everything you need.<br>Nothing you don't.</h2><p>Browse popular categories, check live stock, and move from checkout to delivery without friction.</p></div>
+  <div class="cats">
+   <button class="cat" style="--a:#ff3b4f" onclick="goCategory('robux')"><span class="go">↗</span><small>01 / CURRENCY</small><h3>Robux</h3><p>Account and gift-card delivery</p></button>
+   <button class="cat" style="--a:#8c5cff" onclick="goCategory('v-bucks')"><span class="go">↗</span><small>02 / CURRENCY</small><h3>V-Bucks</h3><p>Fast Fortnite fulfillment</p></button>
+   <button class="cat" style="--a:#3b82f6" onclick="goCategory('valorant')"><span class="go">↗</span><small>03 / POINTS</small><h3>Valorant</h3><p>Points for your next loadout</p></button>
+   <button class="cat" style="--a:#5ee6a8" onclick="goCategory('')"><span class="go">↗</span><small>04 / DIGITAL</small><h3>More drops</h3><p>Accounts, Nitro, and methods</p></button>
+  </div>
+ </div>
+
+ <div class="faq reveal">
+  <span class="kicker">Questions</span>
+  <div class="heading"><h2>Quick answers.</h2></div>
+  <details><summary>How fast is delivery?</summary><p>Most orders are fulfilled within minutes of payment. Once your payment is confirmed, use the Redeem page with your invoice ID to pick a delivery method.</p></details>
+  <details><summary>Where do I find my invoice ID?</summary><p>It's in your purchase confirmation after checkout. Copy it exactly as shown and paste it on the Redeem page.</p></details>
+  <details><summary>What does the stock number mean?</summary><p>It's the quantity currently available from our store. When a product reaches zero it shows as sold out until it's restocked.</p></details>
+  <details><summary>Something went wrong with my order.</summary><p>Message us on Telegram with your invoice ID and we'll sort it out.</p></details>
+ </div>
+
+ <div class="cta-band reveal">
+  <h2>Ready when you are.</h2>
+  <p>Browse the live catalog and get your order on its way.</p>
+  <div class="actions"><button class="btn primary" onclick="switchTab('products')">Shop products →</button><a class="btn secondary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
+ </div>
+
+</div></section>
+
+<section id="products" class="section"><div class="container shop">
+ <div class="shop-head">
+  <div><span class="kicker">The store</span><h1>Pick your pack.</h1><p id="catalog-count">Loading catalog…</p></div>
+  <div class="shop-note"><span><b>⚡</b> Delivered in minutes</span><span><b>✓</b> Secure checkout</span><span><b>●</b> Order → Redeem</span></div>
+ </div>
+ <label class="shop-search" id="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="sr">Search products</span><input id="product-search" placeholder="Search the store…" autocomplete="off"><kbd>/</kbd><button type="button" class="clear-btn" id="clear-q" aria-label="Clear search">✕</button></label>
+ <div class="shop-bar" id="tools">
+  <div class="pills" id="rail"><button class="pill-btn active" data-filter="all"><i>ALL</i>Everything</button></div>
+  <label class="shop-sort">Sort <select id="product-sort"><option value="default">Featured</option><option value="low">Price ↑</option><option value="high">Price ↓</option></select></label>
+ </div>
+ <div id="shop"><div class="sk-wrap"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div>
+ <div class="shop-empty" id="no-results"><b>Nothing matches that.</b>Try a different word, or clear your filters.<br><button class="btn secondary" onclick="resetFilters()">Reset filters</button></div>
+ <div class="shop-help"><div><h3>Not sure which one to get?</h3><p>Message us and we'll point you to the right pack.</p></div><a class="btn primary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
+</div></section>
+
+<section id="redeem" class="section"><div class="container page"><div class="redeem-layout">
+ <div>
+  <span class="kicker">Order fulfillment</span>
+  <h1 style="font-size:clamp(2.8rem,5vw,5rem)">Bought it?<br><span class="gradient">Let's deliver it.</span></h1>
+  <p class="lead" style="margin-bottom:0">Paste the invoice ID from your receipt. We'll check your payment and take you straight to delivery.</p>
+  <div class="rsteps" id="rsteps">
+   <div class="rstep active"><span class="rnum">1</span><div><b>Enter your invoice ID</b><p>It's on your purchase confirmation.</p></div></div>
+   <div class="rstep"><span class="rnum">2</span><div><b>We verify your payment</b><p>Takes a few seconds.</p></div></div>
+   <div class="rstep"><span class="rnum">3</span><div><b>Choose how to receive it</b><p>Get your code, account or item instructions.</p></div></div>
+  </div>
+  <details class="rhelp"><summary>Where do I find my invoice ID?</summary><p>Look in the confirmation shown right after checkout, or in the receipt email from the store. Copy it exactly as written. Still stuck? <a href="https://t.me/vortic_exe" target="_blank" rel="noopener">Message us on Telegram</a>.</p></details>
+ </div>
+ <div class="redeem-card">
+  <div class="rc-head"><h2>Redeem your purchase</h2><span class="rc-lock">🔒 SECURE LOOKUP</span></div>
+  <label class="label" for="invoice">INVOICE ID</label>
+  <div class="inv-box" id="inv-box">
+   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+   <input id="invoice" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your invoice ID">
+   <button type="button" class="paste" id="paste-btn">Paste</button>
+  </div>
+  <button class="btn primary go" id="go-btn" onclick="verifyInvoice()"><span id="go-label">Verify my order</span></button>
+  <div class="result" id="result" role="status" aria-live="polite"></div>
+  <p class="rc-foot">We only use your invoice ID to find your order.</p>
+ </div>
+</div></div></section>
+</main>
+
+<footer><div class="container footer-inner">
+ <span>© <span id="year"></span> Vortic. Digital goods, delivered instantly.</span>
+ <div class="footer-links"><a href="https://vortic.mysellauth.com" target="_blank" rel="noopener">Store ↗</a><a href="https://t.me/vortic_exe" target="_blank" rel="noopener">Telegram ↗</a></div>
+</div></footer>
+
+<script>
+const AUTO_BUY_BASE='/buy';
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const buyUrl=p=>`${AUTO_BUY_BASE}/${encodeURIComponent(p.id??p.sku??p.name)}`;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let productsReady=null;
+
+function switchTab(n){
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===n));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===n));
+  scrollTo({top:0,behavior:reduced?'auto':'smooth'});
+  document.body.classList.toggle('on-products',n==='products');
+  if(n==='products'&&!productsReady)productsReady=loadProducts();
+  if(n==='home')setTimeout(observeReveals,50);
+}
+async function goCategory(q){
+  switchTab('products');
+  await productsReady;
+  const q2=(q||'').toLowerCase();
+  const pill=q2&&[...document.querySelectorAll('#rail .pill-btn')].find(b=>(b.dataset.name||'').toLowerCase().includes(q2));
+  (pill||document.querySelector('#rail .pill-btn[data-filter="all"]'))?.click();
+}
+
+async function loadProducts(){
+  const el=document.getElementById('shop');
+  try{
+    const r=await fetch('/api/products',{cache:'no-store'}),d=await r.json();
+    if(!r.ok||!d.ok)throw 0;
+    renderShop(d.groups||{});
+  }catch{
+    try{
+      const r=await fetch('/api/stock',{cache:'no-store'}),d=await r.json();
+      renderShop({Products:(d.items||[]).map(p=>({...p,id:p.sku||p.name,liveStock:p.stock}))});
+    }catch{
+      el.innerHTML='<div class="empty">Products are taking longer to load. Please refresh shortly.</div>';
+      document.getElementById('catalog-count').textContent='';
+      productsReady=null;
+    }
+  }
+}
+
+/* group look & feel, matched by name */
+const GROUP_META=[
+  [/method/i,{a:'#5ee6a8',g:'✦',blurb:'Guides to get more for less.'}],
+  [/account/i,{a:'#ffad3b',g:'★',blurb:'Ready-to-play accounts with rare items.'}],
+  [/nitro/i,{a:'#6d7bff',g:'N',blurb:'Boost your server and unlock perks.'}],
+  [/minecraft/i,{a:'#8bd450',g:'MC',blurb:'Full-access accounts.'}],
+  [/valorant/i,{a:'#ff5fa2',g:'VP',blurb:'Points for skins, agents and passes.',unit:true}],
+  [/v-?bucks|fortnite/i,{a:'#8c7bff',g:'VB',blurb:'Currency for the Fortnite item shop.',unit:true}],
+  [/robux|roblox/i,{a:'#ff3b4f',g:'R$',blurb:'Top up your Roblox balance.',unit:true}]
+];
+const gmeta=n=>(GROUP_META.find(([re])=>re.test(n))||[0,{a:'#a1a1b2',g:'◆',blurb:''}])[1];
+const money=n=>'$'+Number(n).toFixed(2);
+
+const shopState={active:'all'};
+
+/* normalise API data once per render */
+function buildModel(groups){
+  return Object.entries(groups).filter(([,i])=>(i||[]).length).map(([name,items],gi)=>{
+    const m=gmeta(name);
+    const list=items.map((p,i)=>{
+      const buckets=p?.stock&&typeof p.stock.account==='number'&&typeof p.stock.giftcard==='number';
+      const a=buckets?Math.max(0,+p.stock.account):0,g=buckets?Math.max(0,+p.stock.giftcard):0;
+      const live=buckets?a+g:Math.max(0,+(p.liveStock??p.stock??0));
+      const price=p.price!=null&&!isNaN(+p.price)?+p.price:null;
+      const title=p.name||'Digital product';
+      const pm=m.unit?title.match(/^(\d[\d,.]*)\s+(.+)$/):null;
+      const amt=pm?+pm[1].replace(/,/g,''):null;
+      return{p,i,buckets,a,g,live,price,title,inStock:live>0,amt,amtText:pm?pm[1]:null,unit:pm?pm[2]:null,rate:(amt&&price!=null)?price/(amt/1000):null,m};
+    });
+    const tiers=list.every(x=>x.amt&&x.price!=null);
+    const rates=list.filter(x=>x.rate!=null&&x.inStock).map(x=>x.rate);
+    const bestRate=rates.length>=3?Math.min(...rates):null;
+    const base=[...list].filter(x=>x.rate!=null).sort((a,b)=>a.amt-b.amt)[0];
+    list.forEach(x=>{
+      x.save=base&&x.rate?Math.round((1-x.rate/base.rate)*100):0;
+      x.best=x.inStock&&bestRate!=null&&x.rate===bestRate;
+    });
+    const prices=list.map(x=>x.price).filter(v=>v!=null);
+    return{key:'g'+gi,name,m,list,tiers,from:prices.length?Math.min(...prices):null};
+  });
+}
+const chipsOf=x=>`<span class="chip${x.inStock?'':' off'}">${x.inStock?'In stock':'Sold out'}</span>`;
+const buyOf=x=>x.inStock?`<a class="btn primary buy" href="${buyUrl(x.p)}" target="_blank" rel="noopener">Buy now →</a>`:`<button class="btn buy dead" disabled>Sold out</button>`;
+const badgeOf=x=>x.best?'<span class="tier-badge best">Best value</span>':x.save>=5?`<span class="tier-badge">Save ${x.save}%</span>`:'';
+const priceOf=x=>x.price!=null?money(x.price):'—';
+function mk(tag,cls,x,gname,html){
+  const el=document.createElement(tag);
+  el.className='it '+cls+(x.inStock?'':' soldout');
+  el.dataset.name=(x.title+' '+gname).toLowerCase();el.dataset.price=x.price??1e9;el.dataset.amt=x.amt??0;el.dataset.idx=x.i;
+  el.style.setProperty('--a',x.m.a);el.innerHTML=html;return el;
+}
+
+/* one renderer per design: fills the section; items live in the element marked data-items */
+const RENDER={
+  a(sec,g){
+    const box=document.createElement('div');box.className=g.tiers?'tiers':'rows';box.dataset.items='';
+    g.list.forEach(x=>{
+      box.appendChild(g.tiers
+        ?mk('article','tier',x,g.name,`<div class="tier-top"><span class="tier-kind">${esc(x.m.g)} PACK</span>${badgeOf(x)}</div><div class="tier-amt">${esc(x.amtText)}</div><div class="tier-unit">${esc(x.unit)}</div><div class="tier-rate"><b>${money(x.rate)}</b> per 1,000</div><div class="chips">${chipsOf(x)}</div><div class="tier-foot"><div class="tier-price">${priceOf(x)}</div>${buyOf(x)}</div>`)
+        :mk('article','row-card',x,g.name,`<span class="row-glyph">${esc(x.m.g)}</span><div class="row-main"><h3>${esc(x.title)}</h3><div class="chips">${chipsOf(x)}</div></div><div class="row-price">${priceOf(x)}</div>${buyOf(x)}`));
+    });
+    sec.appendChild(box);
+  }
+};
+
+function renderShop(groups){
+  const shop=document.getElementById('shop'),rail=document.getElementById('rail');
+  shop.innerHTML='';
+  rail.querySelectorAll('.pill-btn:not([data-filter="all"])').forEach(b=>b.remove());
+  const model=buildModel(groups);
+  if(!model.length){shop.innerHTML='<div class="empty">No products available right now.</div>';return}
+  let total=0;
+  model.forEach(g=>{
+    total+=g.list.length;
+    const pill=document.createElement('button');
+    pill.className='pill-btn';pill.dataset.filter=g.key;pill.dataset.name=g.name;pill.style.setProperty('--a',g.m.a);
+    pill.innerHTML=`<i>${esc(g.m.g)}</i>${esc(g.name)} <small>${g.list.length}</small>`;
+    rail.appendChild(pill);
+    const sec=document.createElement('section');
+    sec.className='pg';sec.dataset.group=g.key;sec.id='grp-'+g.key;
+    sec.innerHTML=`<header class="pg-head"><span class="pg-glyph" style="--a:${g.m.a}">${esc(g.m.g)}</span><div><h2>${esc(g.name)}</h2>${g.m.blurb?`<p>${esc(g.m.blurb)}</p>`:''}</div>${g.from!=null?`<div class="pg-from">from<b>${money(g.from)}</b></div>`:''}</header>`;
+    RENDER.a(sec,g);
+    shop.appendChild(sec);
+  });
+  document.getElementById('catalog-count').dataset.total=total;
+  bindShop();
+}
+
+function bindShop(){
+  const search=document.getElementById('product-search'),sort=document.getElementById('product-sort'),sbox=document.getElementById('search-box');
+  const pills=[...document.querySelectorAll('#rail .pill-btn')];
+  if(!pills.some(p=>p.dataset.filter===shopState.active))shopState.active='all';
+  const order={
+    default:(a,b)=>(+a.dataset.amt&&+b.dataset.amt?a.dataset.amt-b.dataset.amt:(a.classList.contains('soldout')-b.classList.contains('soldout')))||a.dataset.idx-b.dataset.idx,
+    low:(a,b)=>a.dataset.price-b.dataset.price,
+    high:(a,b)=>b.dataset.price-a.dataset.price
+  };
+  const apply=()=>{
+    const q=search.value.trim().toLowerCase();let visible=0;
+    pills.forEach(x=>x.classList.toggle('active',x.dataset.filter===shopState.active));
+    document.querySelectorAll('#shop .pg').forEach(sec=>{
+      const box=sec.querySelector('[data-items]');
+      [...box.children].sort(order[sort.value]).forEach(c=>box.appendChild(c));
+      let n=0;
+      [...box.children].forEach(c=>{const show=(shopState.active==='all'||sec.dataset.group===shopState.active)&&c.dataset.name.includes(q);c.hidden=!show;if(show)n++});
+      sec.hidden=!n;visible+=n;
+      if(sec._sync)sec._sync();
+    });
+    sbox.classList.toggle('has-q',!!q);
+    document.getElementById('no-results').style.display=visible?'none':'block';
+    const total=+document.getElementById('catalog-count').dataset.total;
+    document.getElementById('catalog-count').textContent=(visible===total?`${total} products`:`${visible} of ${total} products`)+' · prices in USD';
+  };
+  pills.forEach(b=>b.onclick=()=>{shopState.active=b.dataset.filter;apply();
+    const top=document.getElementById('shop').getBoundingClientRect().top+scrollY-170;
+    if(scrollY>top)scrollTo({top,behavior:reduced?'auto':'smooth'})});
+  search.oninput=apply;sort.onchange=apply;
+  document.getElementById('clear-q').onclick=()=>{search.value='';apply();search.focus()};
+  window.resetFilters=()=>{search.value='';sort.value='default';shopState.active='all';apply()};
+  apply();
+}
+
+/* reveal on scroll */
+let io;
+function observeReveals(){
+  const els=document.querySelectorAll('#home .reveal:not(.visible)');
+  if(reduced||!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('visible'));return}
+  io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -40px'});
+  els.forEach(e=>io.observe(e));
+}
+
+/* scroll: hero parallax + hand scene progress */
+const scene=document.getElementById('card-showcase');
+const cards=[...scene.querySelectorAll('.gift-card')],dots=[...scene.querySelectorAll('.card-progress i')];
+const nq=document.getElementById('n-q'),nv=document.getElementById('n-v'),scanSt=document.getElementById('scan-status');
+function setStep(step,on){
+  const s=on?step:-1,N=cards.length;
+  cards.forEach((c,i)=>{
+    c.classList.toggle('q',i>s);c.classList.toggle('active',i===s);c.classList.toggle('done',i<s);
+    c.style.setProperty('--d',Math.max(0,i-s-1));c.style.setProperty('--k',i);
+  });
+  // verified pile: newest on top, older ones sit lower
+  cards.forEach((c,i)=>{if(i<s)c.style.setProperty('--d',s-1-i)});
+  dots.forEach((d,i)=>d.classList.toggle('on',on&&i<=Math.min(s,N-1)));
+  const done=Math.max(0,Math.min(s,N));
+  nv.textContent=done;nq.textContent=Math.max(0,N-Math.max(0,s)-(s>=0&&s<N?1:0));
+  scene.classList.toggle('live',s>=0&&s<N);
+  scanSt.textContent=s<0?'Waiting to scan':s<N?`Verifying ${cards[s].dataset.name}…`:`All ${N} cards verified ✓`;
+}
+let ticking=false;
+function onScroll(){
+  if(ticking)return;ticking=true;
+  requestAnimationFrame(()=>{
+    ticking=false;
+    if(!document.getElementById('home').classList.contains('active'))return;
+    const y=scrollY;
+    if(!reduced){
+      const f=document.querySelector('#home .float'),o=document.querySelector('#home .orb');
+      if(o)o.style.transform=`translateY(${y*.12}px) scale(${1+Math.min(y/5000,.12)})`;
+    }
+    const r=scene.getBoundingClientRect();
+    const raw=(innerHeight*.8-r.top)/(innerHeight*.7+r.height*.4);
+    if(reduced){setStep(4,true);return}
+    setStep(Math.max(0,Math.min(4,Math.floor(raw*5))),raw>=0);
+  });
+}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);
+
+/* pointer light on hero card + category tiles; subtle 3D tilt */
+const tilt=document.getElementById('tilt');
+if(tilt&&!reduced&&matchMedia('(hover:hover)').matches){
+  const vis=tilt.parentElement;
+  vis.addEventListener('pointermove',e=>{
+    const b=vis.getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;
+    tilt.style.setProperty('--mx',x*100+'%');tilt.style.setProperty('--my',y*100+'%');
+    tilt.style.transform=`rotateY(${(x-.5)*8}deg) rotateX(${(.5-y)*6}deg) rotate(2deg)`;
+  });
+  vis.addEventListener('pointerleave',()=>tilt.style.transform='');
+}
+document.querySelectorAll('.cat').forEach(c=>c.addEventListener('pointermove',e=>{
+  const b=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-b.left)+'px');c.style.setProperty('--my',(e.clientY-b.top)+'px');
+}));
+
+/* products: '/' focuses search */
+addEventListener('keydown',e=>{if(e.key==='/'&&document.getElementById('products').classList.contains('active')&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)){e.preventDefault();document.getElementById('product-search').focus()}});
+
+/* redeem */
+/* redeem */
+const rdInput=document.getElementById('invoice'),rdBox=document.getElementById('inv-box'),rdRes=document.getElementById('result'),rdGo=document.getElementById('go-btn'),rdLabel=document.getElementById('go-label');
+let rdTimer=null,rdPolls=0,rdBusy=false;
+function rdStep(n){document.querySelectorAll('#rsteps .rstep').forEach((el,i)=>{el.classList.toggle('done',i+1<n);el.classList.toggle('active',i+1===n)})}
+function rdClear(){clearTimeout(rdTimer);rdPolls=0;rdRes.className='result';rdRes.innerHTML='';rdBox.classList.remove('bad');rdStep(1);rdLabel.textContent='Verify my order'}
+function rdShow(kind,icon,title,msg,extra=''){
+  rdRes.className='result show '+kind;
+  if(innerWidth<900)setTimeout(()=>rdRes.scrollIntoView({block:'center',behavior:'smooth'}),50);
+  rdRes.innerHTML=`<div class="res-top"><span class="res-ico">${icon}</span><div><b>${esc(title)}</b><p>${esc(msg)}</p></div></div>${extra}`;
+}
+function invoiceItems(d){
+  const x=d?.data||d,list=x?.items||x?.products||x?.invoice?.items||x?.cart||[];
+  if(!Array.isArray(list))return[];
+  return list.map(i=>({name:i?.product?.name||i?.name||i?.product_name||i?.title||'',qty:i?.quantity??i?.qty??1})).filter(i=>i.name).slice(0,6);
+}
+function continueDelivery(){const id=rdInput.value.trim().replace(/\s+/g,'');if(id)location.href=`/choose/${encodeURIComponent(id)}`}
+async function verifyInvoice(isPoll){
+  if(rdBusy)return;
+  const id=rdInput.value.trim().replace(/\s+/g,'');
+  if(!id){rdClear();rdBox.classList.add('bad');rdShow('err','!','Enter your invoice ID','Paste the ID from your receipt to continue.');rdInput.focus();return}
+  clearTimeout(rdTimer);rdBusy=true;rdBox.classList.remove('bad');
+  rdGo.disabled=true;rdLabel.innerHTML='<span class="spin"></span>';
+  if(!isPoll)rdStep(2);
+  let r,d;
+  try{r=await fetch(`/api/invoice/${encodeURIComponent(id)}`,{cache:'no-store'});d=await r.json().catch(()=>null)}
+  catch{rdBusy=false;rdGo.disabled=false;rdLabel.textContent='Try again';rdStep(1);rdShow('err','!',"Couldn't reach the order server",'Check your connection and try again in a moment.');return}
+  rdBusy=false;rdGo.disabled=false;
+  if(!r.ok||!d||d.ok===false){
+    rdStep(1);rdBox.classList.add('bad');rdLabel.textContent='Try again';
+    rdShow('err','✕',"We couldn't find that invoice",'Double-check the ID for typos or extra characters.',`<ul class="res-tips"><li>Copy it straight from your receipt instead of typing it.</li><li>Make sure it's the invoice ID, not the product name.</li></ul>`);
+    return;
+  }
+  const st=String(d?.data?.status||d?.status||d?.data?.invoice?.status||'').toLowerCase();
+  const items=invoiceItems(d);
+  const list=items.length?`<ul class="res-items">${items.map(i=>`<li>${esc(i.name)}<span>× ${esc(i.qty)}</span></li>`).join('')}</ul>`:'';
+  if(/paid|complete|success|deliver/.test(st)){
+    rdStep(3);rdLabel.textContent='Verify again';
+    rdShow('ok','✓','Payment confirmed','Your order is ready. Pick how you want to receive it.',`${list}<div class="res-act"><button class="btn primary" onclick="continueDelivery()">Continue to delivery →</button></div>`);
+  }else if(/cancel|refund|expire|fail|declin|dispute|void/.test(st)){
+    rdStep(1);rdLabel.textContent='Verify again';
+    rdShow('err','✕','This order can\'t be delivered',`Status: ${st}. If you think this is a mistake, message us on Telegram with your invoice ID.`,`${list}<div class="res-act"><a class="btn secondary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Contact support ↗</a></div>`);
+  }else if(/pend|wait|unpaid|process|new|created|open/.test(st)){
+    rdStep(2);rdLabel.textContent='Check again';
+    rdShow('wait','⏳','Waiting for payment','We can see your order but payment isn\'t confirmed yet. Crypto payments can take a few minutes.',`${list}<div class="res-meta">Checking again automatically…</div>`);
+    if(rdPolls<6){rdPolls++;rdTimer=setTimeout(()=>verifyInvoice(true),10000)}
+    else rdRes.querySelector('.res-meta').textContent='Still waiting. Press “Check again” in a minute.';
+  }else{
+    rdStep(2);rdLabel.textContent='Verify again';
+    rdShow('info','i','Order found',st?`Status: ${st}`:'We found your order.',`${list}<div class="res-act"><button class="btn primary" onclick="continueDelivery()">Continue to delivery →</button></div>`);
+  }
+}
+rdInput.addEventListener('keydown',e=>{if(e.key==='Enter')verifyInvoice()});
+rdInput.addEventListener('input',rdClear);
+document.getElementById('paste-btn').onclick=async()=>{
+  try{const t=(await navigator.clipboard.readText()).trim();if(t){rdInput.value=t;rdClear();verifyInvoice();return}}catch{}
+  rdInput.focus();
+};
+(function(){ // deep link: /?invoice=ID
+  try{const id=new URLSearchParams(location.search).get('invoice');if(id){rdInput.value=id.trim();switchTab('redeem');verifyInvoice()}}catch{}
+})();
+document.getElementById('year').textContent=new Date().getFullYear();
+observeReveals();onScroll();
+</script>
+</body>
+</html>

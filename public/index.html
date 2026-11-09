@@ -474,7 +474,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
  <div class="cta-band reveal">
   <h2>Ready when you are.</h2>
   <p>Browse the live catalog and get your order on its way.</p>
-  <div class="actions"><button class="btn primary" onclick="switchTab('products')">Shop products →</button><a class="btn secondary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
+  <div class="actions"><button class="btn primary" onclick="switchTab('products')">Shop products →</button><a class="btn secondary" href="https://t.me/UnIosable" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
  </div>
 
 </div></section>
@@ -491,7 +491,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
  </div>
  <div id="shop"><div class="sk-wrap"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div></div>
  <div class="shop-empty" id="no-results"><b>Nothing matches that.</b>Try a different word, or clear your filters.<br><button class="btn secondary" onclick="resetFilters()">Reset filters</button></div>
- <div class="shop-help"><div><h3>Not sure which one to get?</h3><p>Message us and we'll point you to the right pack.</p></div><a class="btn primary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
+ <div class="shop-help"><div><h3>Not sure which one to get?</h3><p>Message us and we'll point you to the right pack.</p></div><a class="btn primary" href="https://t.me/UnIosable" target="_blank" rel="noopener">Ask on Telegram ↗</a></div>
 </div></section>
 
 <section id="redeem" class="section"><div class="container page"><div class="redeem-layout">
@@ -504,7 +504,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
    <div class="rstep"><span class="rnum">2</span><div><b>We verify your payment</b><p>Takes a few seconds.</p></div></div>
    <div class="rstep"><span class="rnum">3</span><div><b>Choose how to receive it</b><p>Get your code, account or item instructions.</p></div></div>
   </div>
-  <details class="rhelp"><summary>Where do I find my invoice ID?</summary><p>Look in the confirmation shown right after checkout, or in the receipt email from the store. Copy it exactly as written. Still stuck? <a href="https://t.me/vortic_exe" target="_blank" rel="noopener">Message us on Telegram</a>.</p></details>
+  <details class="rhelp"><summary>Where do I find my invoice ID?</summary><p>Look in the confirmation shown right after checkout, or in the receipt email from the store. Copy it exactly as written. Still stuck? <a href="https://t.me/UnIosable" target="_blank" rel="noopener">Message us on Telegram</a>.</p></details>
  </div>
  <div class="redeem-card">
   <div class="rc-head"><h2>Redeem your purchase</h2><span class="rc-lock">🔒 SECURE LOOKUP</span></div>
@@ -523,7 +523,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-s
 
 <footer><div class="container footer-inner">
  <span>© <span id="year"></span> Vortic. Digital goods, delivered instantly.</span>
- <div class="footer-links"><a href="https://vortic.mysellauth.com" target="_blank" rel="noopener">Store ↗</a><a href="https://t.me/vortic_exe" target="_blank" rel="noopener">Telegram ↗</a></div>
+ <div class="footer-links"><a href="https://vortic.mysellauth.com" target="_blank" rel="noopener">Store ↗</a><a href="https://t.me/UnIosable" target="_blank" rel="noopener">Telegram ↗</a></div>
 </div></footer>
 
 <script>
@@ -794,7 +794,7 @@ async function verifyInvoice(isPoll){
     rdShow('ok','✓','Payment confirmed','Your order is ready. Pick how you want to receive it.',`${list}<div class="res-act"><button class="btn primary" onclick="continueDelivery()">Continue to delivery →</button></div>`);
   }else if(/cancel|refund|expire|fail|declin|dispute|void/.test(st)){
     rdStep(1);rdLabel.textContent='Verify again';
-    rdShow('err','✕','This order can\'t be delivered',`Status: ${st}. If you think this is a mistake, message us on Telegram with your invoice ID.`,`${list}<div class="res-act"><a class="btn secondary" href="https://t.me/vortic_exe" target="_blank" rel="noopener">Contact support ↗</a></div>`);
+    rdShow('err','✕','This order can\'t be delivered',`Status: ${st}. If you think this is a mistake, message us on Telegram with your invoice ID.`,`${list}<div class="res-act"><a class="btn secondary" href="https://t.me/UnIosable" target="_blank" rel="noopener">Contact support ↗</a></div>`);
   }else if(/pend|wait|unpaid|process|new|created|open/.test(st)){
     rdStep(2);rdLabel.textContent='Check again';
     rdShow('wait','⏳','Waiting for payment','We can see your order but payment isn\'t confirmed yet. Crypto payments can take a few minutes.',`${list}<div class="res-meta">Checking again automatically…</div>`);
